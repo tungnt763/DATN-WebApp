@@ -1,12 +1,63 @@
-from flask import Flask, request, jsonify
+from flask import Flask, redirect, url_for, session, request, jsonify
 from flask_cors import CORS
 from models import UploadLog, SessionLocal
 from gcs_utils import upload_file_to_gcs
 from datetime import datetime
 from sqlalchemy import and_
+from flask_dance.contrib.google import make_google_blueprint, google
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
+
+load_dotenv()
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
+
+google_bp = make_google_blueprint(
+    client_id=os.environ.get("GOOGLE_CLIENT_ID"),
+    client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
+    redirect_url="http://localhost:5050/login/callback",
+    scope=[
+        "openid",
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email"
+    ]
+)
+app.register_blueprint(google_bp, url_prefix="/login")
+
+@app.route("/login/callback")
+def google_authorized():
+    if not google.authorized:
+        return redirect(url_for("google.login"))
+
+    resp = google.get("/oauth2/v2/userinfo")
+    user_info = resp.json()
+    email = user_info.get("email", "unknown")
+
+    # (Optional) check domain
+    allowed_domain = os.getenv("ALLOWED_GOOGLE_DOMAINS")
+    if allowed_domain and not email.endswith(allowed_domain):
+        return "Access denied", 403
+
+    # Save user info
+    session["user_email"] = email
+    return redirect("http://localhost:3000")
+
+@app.route("/whoami")
+def whoami():
+    return jsonify({
+        "email": session.get("user_email")
+    }) if "user_email" in session else ("Unauthorized", 401)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("http://localhost:3000/login")
+
+@app.route("/")
+def index():
+    return "Backend is running"
 
 @app.route("/upload", methods=["POST"])
 def upload():
