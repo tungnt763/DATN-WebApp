@@ -1,0 +1,4 @@
+backend/gcp/
+backend/.env
+.webapp/
+frontend/node_modules/

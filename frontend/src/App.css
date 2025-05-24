@@ -1,0 +1,31 @@
+body {
+  background-color: #f4f6f8;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+}
+
+.app-background {
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.portal-title {
+  font-weight: 700;
+  color: #343a40;
+}
+
+.portal-subtitle {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+footer {
+  background-color: #f1f3f5;
+}
