@@ -3,4 +3,9 @@ backend/.env
 .webapp/
 frontend/node_modules/
 frontend/.env
-backend/pos_sender/data/*.csv
+backend/pos_sender/data/
+backend/pos_sender/data_date/
+backend/pos_sender/backup/
+backend/pos_sender/divide_transaction_by_month.py
+cloud-function/.env.yaml
+backend/pos_sender/transactions.csv

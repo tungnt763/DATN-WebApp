@@ -7,8 +7,8 @@ load_dotenv()
 
 API_URL = "http://localhost:5050/upload"
 API_KEY = os.environ.get("FLASK_SECRET_KEY")
-DATA_DIR = "/Users/tungnt763/Documents/WebApp/backend/pos_sender/data"
-INTERVAL = 600  # 10 phút (test)
+DATA_DIR = "/Users/tungnt763/Documents/WebApp/backend/pos_sender/data_date"
+INTERVAL = 300  # 10 phút (test)
 
 def send_file(filepath):
     with open(filepath, "rb") as f:
