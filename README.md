@@ -77,7 +77,7 @@ npm install
 npm start
 ```
 
-Giao diện sẽ chạy tại `http://localhost:8082`
+Giao diện sẽ chạy tại `http://localhost:3000`
 
 ---
 
@@ -88,7 +88,7 @@ Giao diện sẽ chạy tại `http://localhost:8082`
 ```bash
 brew install --cask ngrok
 ngrok config add-authtoken <your_ngrok_token>
-ngrok http http://localhost:8080
+ngrok http http://localhost:8082
 ```
 
 Ghi lại `https://<random>.ngrok.io` để sử dụng cho bước sau.
@@ -137,6 +137,6 @@ Script này sẽ tự động gửi các file `.csv` lên GCS định kỳ (mỗ
 ---
 
 ✅ **Sau khi hoàn tất:** bạn có thể theo dõi:
-- Trạng thái DAG chạy tại `http://localhost:8080`
-- File trên GCS hoặc MinIO
+- Trạng thái DAG chạy tại `http://localhost:8082`
+- File trên GCS
 - Dashboard Superset tại `http://localhost:8088`
